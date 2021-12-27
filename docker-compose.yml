@@ -3,24 +3,24 @@ version: '3.4'
 services:
   nginx:
     image: nginx:1.21-alpine
-    container_name: indicators_storage_nginx
+    container_name: indicators_generator_nginx
     restart: unless-stopped
     networks:
-      - indicators_storage
+      - indicators_generator
     depends_on:
       - php
     ports:
       - '84:80'
     volumes:
       - ./:/opt/app
-      - ./build/nginx/conf.d:/etc/nginx/conf.d
+      - ./build/nginx/config:/etc/nginx/conf.d
 
   mysql:
     image: mysql:8.0.17
-    container_name: indicators_storage_mysql
+    container_name: indicators_generator_mysql
     restart: unless-stopped
     networks:
-      - indicators_storage
+      - indicators_generator
     volumes:
       - ./storage/database:/var/lib/mysql
     env_file:
@@ -32,9 +32,9 @@ services:
     build:
       context: .
       dockerfile: build/php/Dockerfile
-    container_name: indicators_storage_php
+    container_name: indicators_generator_php
     networks:
-      - indicators_storage
+      - indicators_generator
     depends_on:
       - mysql
     volumes:
@@ -43,7 +43,7 @@ services:
       - .env
 
 networks:
-  indicators_storage:
+  indicators_generator:
     driver: "bridge"
     driver_opts:
       com.docker.network.driver.mtu: 1400

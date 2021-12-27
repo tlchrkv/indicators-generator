@@ -1,5 +1,6 @@
 FROM php:8.1.1-fpm-buster
 
+RUN docker-php-ext-install -j$(nproc) opcache mysqli pdo_mysql
 RUN mkdir /tmp/php-opcache && chmod -R 777 /tmp/php-opcache
 RUN rm /usr/local/etc/php-fpm.d/www.conf /usr/local/etc/php-fpm.d/www.conf.default
 COPY ./build/php/config/php.ini /usr/local/etc/php

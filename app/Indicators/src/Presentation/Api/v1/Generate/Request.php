@@ -13,7 +13,7 @@ final class Request extends FormRequest
     {
         $typeCases = array_map(fn (Type $type): string => $type->value, Type::cases());
 
-        return ['type' => 'required|string|in:' . implode($typeCases)];
+        return ['type' => 'required|string|in:' . implode(',', $typeCases)];
     }
 
     public function getType(): Type

@@ -10,6 +10,11 @@ use Ramsey\Uuid\UuidInterface;
 
 final class Request extends FormRequest
 {
+    public function rules(): array
+    {
+        return [];
+    }
+
     public function getId(): UuidInterface
     {
         return Uuid::fromString($this->route('id'));
